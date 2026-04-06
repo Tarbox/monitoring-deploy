@@ -22,5 +22,6 @@ jobs:
 
             cd ~/monitoring/docker
 
+            docker-compose down || true
             docker-compose up -d
           '
