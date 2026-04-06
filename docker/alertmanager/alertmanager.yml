@@ -1,8 +1,5 @@
-global:
-  resolve_timeout: 1m
-
 route:
-  receiver: 'telegram'
+  receiver: 'default'
 
 receivers:
   - name: 'default'
