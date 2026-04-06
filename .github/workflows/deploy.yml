@@ -1,4 +1,4 @@
-name: Deploy Monitoring
+name: Deploy
 
 on:
   push:
@@ -7,20 +7,13 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted   # ВАЖНО
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Setup SSH
+      - name: Deploy to monitoringVM
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
-      - name: Deploy
-        run: |
-          ssh -o StrictHostKeyChecking=no \
-          -J router@192.168.122.66 \
-          monitoring@192.168.100.40 \
-          'cd monitoring && git pull && docker-compose up -d'
+          ssh monitoring@192.168.100.40 \
+          'cd ~/monitoring && git pull && docker-compose up -d'
