@@ -16,11 +16,8 @@ jobs:
       - name: Deploy to monitoringVM
         run: |
           ssh monitoring@192.168.100.40 '
-            if [ ! -d ~/monitoring/.git ]; then
-              git clone https://github.com/Tarbox/monitoring-deploy.git ~/monitoring
-            else
-              cd ~/monitoring && git pull
-            fi
+            rm -rf ~/monitoring
+            git clone https://github.com/Tarbox/monitoring-deploy.git ~/monitoring
 
             cd ~/monitoring/docker
             docker-compose up -d
