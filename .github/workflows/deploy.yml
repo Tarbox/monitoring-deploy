@@ -1,0 +1,26 @@
+name: Deploy Monitoring
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Deploy
+        run: |
+          ssh -o StrictHostKeyChecking=no \
+          -J your_user@routerVM_IP \
+          your_user@monitoringVM_IP \
+          'cd monitoring && git pull && docker-compose up -d'
