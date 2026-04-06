@@ -21,6 +21,6 @@ jobs:
       - name: Deploy
         run: |
           ssh -o StrictHostKeyChecking=no \
-          -J your_user@routerVM_IP \
-          your_user@monitoringVM_IP \
+          -J router@192.168.122.66 \
+          monitoring@192.168.100.40 \
           'cd monitoring && git pull && docker-compose up -d'
