@@ -10,6 +10,11 @@
         state: present
         update_cache: yes
 
+    - name: Clean old monitoring dir
+      file:
+        path: /home/vasyl/monitoring
+        state: absent    
+        
     - name: Create directory
       file:
         path: /home/vasyl/monitoring
