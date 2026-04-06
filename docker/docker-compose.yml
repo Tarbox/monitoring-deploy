@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   prometheus:
     image: prom/prometheus
@@ -7,6 +5,11 @@ services:
       - ./prometheus:/etc/prometheus
    # ports:
     #  - "9090:9090"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "https://localhost:9090/-/ready"]
+      interval: 30s
+      retries: 3
+    restart: unless-stopped
 
   grafana:
     image: grafana/grafana
@@ -16,17 +19,20 @@ services:
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/var/lib/grafana/dashboards
-      
+    restart: unless-stopped
+
   loki:
     image: grafana/loki
     #ports:
      # - "3100:3100"
+    restart: unless-stopped
 
   node-exporter:
     image: prom/node-exporter
     #ports:
      # - "9100:9100"
- 
+    restart: unless-stopped
+
   promtail:
     image: grafana/promtail:latest
     volumes:
@@ -43,6 +49,7 @@ services:
       - ./alertmanager:/etc/alertmanager
     command:
       - "--config.file=/etc/alertmanager/alertmanager.yml"
+    restart: unless-stopped
 
   nginx:
     image: nginx:latest
@@ -52,6 +59,7 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - grafana
+    restart: unless-stopped
 
 volumes:
   grafana_data:
