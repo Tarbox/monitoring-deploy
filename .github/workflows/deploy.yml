@@ -13,11 +13,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Deploy to monitoringVM
+      - name: Deploy
         run: |
           ssh monitoring@192.168.100.40 '
-            rm -rf ~/monitoring
-            git clone https://github.com/Tarbox/monitoring-deploy.git ~/monitoring
+            if [ ! -d ~/monitoring ]; then
+              git clone https://github.com/USERNAME/REPO.git ~/monitoring
+            else
+              cd ~/monitoring && git pull
+            fi
 
             cd ~/monitoring/docker
             docker-compose up -d
