@@ -1,0 +1,6 @@
+[monitoring]
+monitoringVM ansible_host=192.168.100.40
+
+[monitoring:vars]
+ansible_user=monitoring
+ansible_ssh_common_args='-o ProxyJump=router@192.168.122.66'

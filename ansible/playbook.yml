@@ -1,0 +1,37 @@
+- hosts: monitoring
+  become: yes
+
+  tasks:
+    - name: Install Docker
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+        state: present
+        update_cache: yes
+
+    - name: Create directory
+      file:
+        path: /home/vasyl/monitoring
+        state: directory
+
+    - name: Copy project files
+      copy:
+        src: ../docker/
+        dest: /home/vasyl/monitoring/
+
+    - name: Restart stack
+      shell: docker-compose down && docker-compose up -d
+      args:
+        chdir: /home/vasyl/monitoring/
+
+    - name: Stop existing containers
+      command: docker-compose down --remove-orphans
+      args:
+        chdir: /home/vasyl/monitoring/
+      ignore_errors: yes
+
+    - name: Run docker-compose
+      command: docker-compose up -d
+      args:
+        chdir: /home/vasyl/monitoring/
