@@ -20,36 +20,16 @@ This project implements a **centralized monitoring platform** with:
 
 # 🏗️ Architecture
 
-```
-[ Host PC ]
-     ↓
-[ routerVM (NAT + nftables) ]
-     ↓
-[ monitoringVM (Docker stack) ]
-     ↓
- ┌──────────────────────────────┐
- │        Docker Network        │
- │                              │
- │  Prometheus   Grafana        │
- │  Alertmanager Loki           │
- │  Promtail     Node Exporter  │
- │  Nginx (entrypoint)          │
- └──────────────────────────────┘
-```
+![Architecture](CICDMonitoringStack-2026.png)
 
----
+### Key Features
 
-## 🔗 Traffic Flow
-
-```
-Client → routerVM (DNAT)
-       → monitoringVM
-       → nginx → services (grafana/prometheus/etc)
-       → response via SNAT (masquerade)
-```
-
----
-
+- TLS termination via Nginx (HTTPS entrypoint)
+- Infrastructure as Code (Ansible / Terraform)
+- Centralized secrets management
+- Automated backup strategy
+- Self-hosted CI/CD (GitHub Actions + Runner)
+---  
 # 📦 Tech Stack
 
 * Docker / Docker Compose
@@ -61,6 +41,31 @@ Client → routerVM (DNAT)
 * Ansible
 * GitHub Actions (CI/CD)
 * nftables (NAT + firewall)
+  
+---
+
+## 🔗 Traffic Flow
+
+### User Traffic  
+```
+Internet → Bastion → Nginx → Services
+```
+### Metrics Flow  
+```
+Prometheus → Node Exporters (VMs)
+```
+### Logs Flow  
+```
+Promtail → Loki
+```
+### Alerts Flow  
+```
+Prometheus → Alertmanager
+```
+### CI/CD  
+```
+GitHub → Actions → Runner → SSH → Docker Deploy
+```
 
 ---
 
