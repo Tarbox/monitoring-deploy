@@ -1,3 +1,6 @@
+![Docker](https://img.shields.io/badge/docker-ready-blue)
+![Monitoring](https://img.shields.io/badge/monitoring-prometheus%20%7C%20grafana%20%7C%20loki-orange)
+![Security](https://img.shields.io/badge/security-nftables-green)
 # 🚀 Automated Monitoring Platform (DevOps-ready)
 
 Production-like monitoring stack deployed via Docker, automated with CI/CD, and integrated into a multi-VM network with NAT routing.
