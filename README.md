@@ -1,3 +1,4 @@
+![License](https://img.shields.io/github/license/Tarbox/monitoring-deploy)
 ![Docker](https://img.shields.io/badge/docker-ready-blue)
 ![Monitoring](https://img.shields.io/badge/monitoring-prometheus%20%7C%20grafana%20%7C%20loki-orange)
 ![Security](https://img.shields.io/badge/security-nftables-green)
